@@ -2,57 +2,147 @@
 <html lang="bn">
 <head>
     <meta charset="UTF-8">
-    <title>Premium Proxy-Powered Generator</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pro User & Outlook Generator | MD MAHFUJAR</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
-        /* আগের স্টাইলগুলো এখানে থাকবে */
-        .status-badge { padding: 4px 8px; border-radius: 12px; font-size: 11px; font-weight: bold; }
-        .available { background: #e6fffa; color: #2c7a7b; border: 1px solid #b2f5ea; }
-        .taken { background: #fff5f5; color: #c53030; border: 1px solid #feb2b2; }
-        .loading { color: #718096; font-style: italic; }
+        :root { --primary: #1a73e8; --secondary: #34a853; --dark: #202124; --light: #f8f9fa; --text: #3c4043; }
+        body { font-family: 'Inter', sans-serif; background: var(--light); margin: 0; display: flex; flex-direction: column; min-height: 100vh; color: var(--text); }
+        .container { flex: 1; display: flex; justify-content: center; align-items: flex-start; padding: 40px 20px; }
+        .card { background: white; padding: 30px; border-radius: 15px; box-shadow: 0 10px 40px rgba(0,0,0,0.05); width: 100%; max-width: 800px; }
+        h2 { text-align: center; color: var(--dark); margin-bottom: 25px; font-weight: 700; }
+        .btn-box { display: flex; gap: 15px; margin-bottom: 25px; }
+        button { flex: 1; padding: 15px; border: none; border-radius: 10px; cursor: pointer; font-weight: 600; font-size: 15px; transition: 0.3s; }
+        .gen { background: var(--primary); color: white; }
+        .copy { background: var(--secondary); color: white; }
+        button:hover { opacity: 0.9; transform: translateY(-2px); }
+        
+        table { width: 100%; border-collapse: collapse; border-radius: 10px; overflow: hidden; margin-top: 10px; }
+        th, td { padding: 15px; text-align: left; border-bottom: 1px solid #f1f3f4; font-size: 14px; }
+        th { background: #f8f9fa; color: var(--dark); }
+        
+        .verify-btn { background: #fce8e6; color: #d93025; border: 1px solid #f5c6cb; padding: 6px 12px; border-radius: 5px; font-size: 12px; cursor: pointer; text-decoration: none; }
+        .verify-btn:hover { background: #d93025; color: white; }
+
+        footer { background: var(--dark); color: white; padding: 40px 20px; text-align: center; margin-top: 50px; }
+        .footer-grid { display: flex; justify-content: space-around; flex-wrap: wrap; max-width: 1000px; margin: 0 auto; text-align: left; gap: 30px; }
+        .f-sec h4 { color: white; margin-bottom: 15px; }
+        .f-sec p, .f-sec a { color: #bdc1c6; font-size: 13px; text-decoration: none; line-height: 1.6; }
+        .f-sec a:hover { color: white; }
+        .toast { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: #323232; color: white; padding: 12px 30px; border-radius: 50px; display: none; z-index: 1000; }
     </style>
 </head>
 <body>
-    <script>
-        // ইউজারনেম ও ইমেইল জেনারেটর লজিক (আগের মতো)
-        
-        async function checkEmail(email, elementId) {
-            const statusEl = document.getElementById(elementId);
-            statusEl.innerHTML = '<span class="loading">Checking...</span>';
+
+<div id="toast" class="toast">১০টি ডাটা কপি হয়েছে! ✅</div>
+
+<div class="container">
+    <div class="card">
+        <h2>📋 Smart User & Mail Generator</h2>
+        <div class="btn-box">
+            <button class="gen" onclick="generateBatch()">Generate 10 New</button>
+            <button class="copy" onclick="copyData()">Copy for Sheets</button>
+        </div>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Username</th>
+                    <th>Outlook Email</th>
+                    <th>Status Check</th>
+                </tr>
+            </thead>
+            <tbody id="resultBody">
+                </tbody>
+        </table>
+    </div>
+</div>
+
+<footer>
+    <div class="footer-grid">
+        <div class="f-sec" style="max-width: 300px;">
+            <h4>About This Tool</h4>
+            <p>এটি একটি হাই-টেক জেনারেটর যা আপনার জন্য সম্পূর্ণ ইউনিক বাংলাদেশি নাম এবং আউটলুক এড্রেস তৈরি করে। সরাসরি গুগল শিটে পেস্ট করার উপযোগী।</p>
+        </div>
+        <div class="f-sec">
+            <h4>Quick Links</h4>
+            <p><a href="#">Privacy Policy</a><br>
+            <a href="#">Terms of Use</a><br>
+            <a href="#">Developer API</a></p>
+        </div>
+        <div class="f-sec">
+            <h4>Contact Us</h4>
+            <p>প্রক্সি বা এপিআই সংক্রান্ত সমস্যার জন্য ইমেইল করুন।</p>
+            <a href="mailto:mahfujar003@gmail.com?subject=Contact from Generator">mahfujar003@gmail.com</a>
+        </div>
+    </div>
+    <div style="margin-top: 30px; font-size: 12px; color: #70757a;">
+        © 2024 MD MAHFUJAR | All Rights Reserved.
+    </div>
+</footer>
+
+<script>
+    // বিশাল ডাটা পুল (নাম এবং নাম্বার)
+    const firstNames = ["Kamrul", "Sumi", "Tanjim", "Jannat", "Aslam", "Kona", "Sathi", "Samakya", "Shipon", "Nadira", "Moumita", "Poly", "Sujon", "Rifa", "Mousumi", "Nafimoni", "Lima", "Shuvo", "Momi", "Sabbir", "Nusrat", "Afra", "Nova", "Rakibul", "Arhan", "Niyor", "Mimi", "Rodela", "Mouri", "Adnan", "Raika", "Niloy", "Oishi", "Zuhayr", "Saffan", "Inshi", "Meher", "Zabir", "Safwan", "Sajid", "Wafia", "Tanbin", "Anila", "Mishkat", "Arit", "Suhara", "Mitu", "Riyaz"];
+    const lastNames = ["Akter", "Islam", "Hossain", "Parvez", "Khan", "Sultana", "Ahmed", "Rahman", "Anan", "Abir", "Mizxa", "Khatun", "Begum", "Sheikh"];
+    const numbers = ["777", "9", "101", "017", "99", "88", "26", "2250", "00", "54", "674", "112", "757", "68", "90", "10", "59"];
+
+    let currentBatch = [];
+
+    function generateBatch() {
+        const tbody = document.getElementById('resultBody');
+        tbody.innerHTML = '';
+        currentBatch = [];
+        const usedNames = new Set();
+
+        while(currentBatch.length < 10) {
+            const fn = firstNames[Math.floor(Math.random() * firstNames.length)];
+            const ln = lastNames[Math.floor(Math.random() * lastNames.length)];
+            const num = numbers[Math.floor(Math.random() * numbers.length)];
             
-            try {
-                // আমাদের তৈরি করা ভার্সেল এপিআই কল করা
-                const res = await fetch(`/api/verify?email=${email}`);
-                const data = await res.json();
-                
-                if(data.available) {
-                    statusEl.innerHTML = '<span class="status-badge available">Available ✅</span>';
-                } else {
-                    statusEl.innerHTML = '<span class="status-badge taken">Already Taken ❌</span>';
-                }
-            } catch (e) {
-                statusEl.innerHTML = '<span class="status-badge taken">Error</span>';
-            }
-        }
+            // ৫টি ইউনিক ইউজারনেম স্টাইল
+            const styles = [
+                `${fn}${ln.substring(0,3)}${num}`,           
+                `${num}${fn}${ln.substring(0,2)}`,           
+                `${fn}${num}${ln.charAt(0)}`,                 
+                `${ln}${fn.substring(0,3)}${num.charAt(0)}`, 
+                `BD${fn}${num}`                             
+            ];
+            const username = styles[Math.floor(Math.random() * styles.length)];
 
-        function generateBatch() {
-            const tbody = document.getElementById('resultBody');
-            tbody.innerHTML = '';
-            currentBatch = [];
+            // ইমেইল স্টাইল
+            const email = `${fn.toLowerCase()}${ln.toLowerCase()}${num}@outlook.com`.replace(/\s/g, '');
 
-            for(let i=0; i<10; i++) {
-                const data = generateUniqueRow(); // আপনার ৫ স্টাইল লজিক এখানে কল হবে
-                currentBatch.push(data);
+            if(!usedNames.has(username)) {
+                usedNames.add(username);
+                currentBatch.push({ u: username, e: email });
                 
-                const rowId = `status-${i}`;
+                // মাইক্রোসফট চেক লিঙ্ক
+                const checkUrl = `https://login.live.com/login.srf?login_hint=${email}`;
+
                 tbody.innerHTML += `
                     <tr>
-                        <td>${data.u}</td>
-                        <td>${data.e}</td>
-                        <td id="${rowId}"><button onclick="checkEmail('${data.e}', '${rowId}')">Verify Now</button></td>
+                        <td><strong>${username}</strong></td>
+                        <td>${email}</td>
+                        <td><a href="${checkUrl}" target="_blank" class="verify-btn">Verify Availability</a></td>
                     </tr>`;
             }
         }
-    </script>
+    }
+
+    function copyData() {
+        if(currentBatch.length === 0) return;
+        const copyText = currentBatch.map(d => `${d.u}\t${d.e}`).join('\n');
+        navigator.clipboard.writeText(copyText).then(() => {
+            const t = document.getElementById('toast');
+            t.style.display = 'block';
+            setTimeout(() => t.style.display = 'none', 2000);
+        });
+    }
+
+    // পেজ লোড হলে অটোমেটিক ১০টি ডাটা দেখাবে
+    window.onload = generateBatch;
+</script>
+
 </body>
 </html>
-
