@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <title>Premium Proxy-Powered Generator</title>
+    <style>
+        /* আগের স্টাইলগুলো এখানে থাকবে */
+        .status-badge { padding: 4px 8px; border-radius: 12px; font-size: 11px; font-weight: bold; }
+        .available { background: #e6fffa; color: #2c7a7b; border: 1px solid #b2f5ea; }
+        .taken { background: #fff5f5; color: #c53030; border: 1px solid #feb2b2; }
+        .loading { color: #718096; font-style: italic; }
+    </style>
+</head>
+<body>
+    <script>
+        // ইউজারনেম ও ইমেইল জেনারেটর লজিক (আগের মতো)
+        
+        async function checkEmail(email, elementId) {
+            const statusEl = document.getElementById(elementId);
+            statusEl.innerHTML = '<span class="loading">Checking...</span>';
+            
+            try {
+                // আমাদের তৈরি করা ভার্সেল এপিআই কল করা
+                const res = await fetch(`/api/verify?email=${email}`);
+                const data = await res.json();
+                
+                if(data.available) {
+                    statusEl.innerHTML = '<span class="status-badge available">Available ✅</span>';
+                } else {
+                    statusEl.innerHTML = '<span class="status-badge taken">Already Taken ❌</span>';
+                }
+            } catch (e) {
+                statusEl.innerHTML = '<span class="status-badge taken">Error</span>';
+            }
+        }
+
+        function generateBatch() {
+            const tbody = document.getElementById('resultBody');
+            tbody.innerHTML = '';
+            currentBatch = [];
+
+            for(let i=0; i<10; i++) {
+                const data = generateUniqueRow(); // আপনার ৫ স্টাইল লজিক এখানে কল হবে
+                currentBatch.push(data);
+                
+                const rowId = `status-${i}`;
+                tbody.innerHTML += `
+                    <tr>
+                        <td>${data.u}</td>
+                        <td>${data.e}</td>
+                        <td id="${rowId}"><button onclick="checkEmail('${data.e}', '${rowId}')">Verify Now</button></td>
+                    </tr>`;
+            }
+        }
+    </script>
+</body>
+</html>
+
